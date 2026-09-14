@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title> Задание 2 </title>
+        <script>
+            var n = 0;
+            var pic = ["pic1.jpg", "pic2.jpg"];
+
+            function func2() {
+                n = (n + 1) % 2;
+                document.getElementById("rr1").src = pic[n];
+                document.getElementById("abz").textContent = `Картинка ${n + 1}`;
+            }
+        </script>
+    </head>
+    <body style="background-color:blue">
+        <img id="rr1" src="pic1.jpg" style="height:150px" onclick="func2()">
+        <p id="abz" style="color:yellow">Картинка 1</p>
+    </body>
+</html>

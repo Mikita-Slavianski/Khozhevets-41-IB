@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title> Пример 22 </title>
+        <script>
+            function func1() {
+                document.getElementById("rr1").src = "pic1.jpg";
+            }
+
+            function func2() {
+                document.getElementById("rr1").src = "pic2.jpg";
+            }
+        </script>
+    </head>
+    <body style="background-color:blue">
+        <img id="rr1" src="pic1.jpg" style="height:150px">
+        <p style="color:yellow"></p>
+        <form>
+            <input type="button" value="Первая" onclick="func1()">
+            <input type="button" value="Вторая" onclick="func2()">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Задание 5</title>
+    <script>
+        let mode = null;
+
+        function updateCoordinates(event) {
+            if (mode === 'screen') {
+                document.getElementById("tp1").value = `Screen: (${event.screenX}, ${event.screenY})`;
+                document.getElementById("tp1").style.backgroundColor = "pink";
+
+            } else if (mode === 'client') {
+                document.getElementById("tp1").value = `Client: (${event.clientX}, ${event.clientY})`;
+                document.getElementById("tp1").style.backgroundColor = "lightblue";
+            } else {
+                document.getElementById("tp1").value = "";
+                document.getElementById("tp1").style.backgroundColor = "white";
+            }
+            document.getElementById("tp1").style.textAlign = "center";
+            document.getElementById("tp1").size = el.value.length;
+        }
+
+        document.addEventListener('mousemove', updateCoordinates);
+
+        function setMode(newMode) {
+            mode = newMode;
+        }
+    </script>
+</head>
+<body style="background-color:green">
+    <p style="color:yellow">Отображение координат курсора</p>
+    <form>
+        <input id="tp1" type="text" size="32" value="">
+        <br>
+        <input type="button" value="Первая (экран)" style="background-color: pink;" onclick="setMode('screen')">
+        <input type="button" value="Вторая (окно)" style="background-color: lightblue;" onclick="setMode('client')">
+        <input type="button" value="Третья (выкл)" style="background-color: lightgreen;" onclick="setMode(null)">
+    </form>
+</body>
+</html>

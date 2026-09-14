@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title> Пример 20 </title>
+        <script>
+            function func1() {
+                var textFromTop = document.getElementById("topField").value;
+                document.getElementById("tp1").value = textFromTop;
+                document.getElementById("topField").value = "";
+                document.getElementById("tp1").style.background = "pink";
+            }
+
+            function func2() {
+                document.getElementById("tp1").style.backgroundColor = "lightblue";
+                document.getElementById("tp1").value = "Вы нажали вторую кнопку";
+            }
+
+            function func3() {
+                document.getElementById("tp1").style.backgroundColor = "lightgreen";
+                document.getElementById("tp1").value = "Вы нажали третью кнопку";
+            }
+        </script>
+    </head>
+    <body style="background-color:green">
+        <p style="color:yellow">Пример использования формы с кнопками</p>
+        <form>
+            <input id="topField" type="text" size=32 value="">
+            <br>
+            <input id="tp1" type="text" size=32 value="">
+            <br>
+            <input type="button" value="Первая" style="background-color: pink;" onclick="func1()">
+            <input type="button" value="Вторая" style="background-color: lightblue;" onclick="func2()">
+            <input type="button" value="Третья" style="background-color: lightgreen;" onclick="func3()">
+        </form>
+    </body>
+</html>

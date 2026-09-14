@@ -1,17 +1,18 @@
 <html>
     <head>
-        <title> Пример 8 </title>
+        <title> Пример 11 </title>
         <script>
             function func1() {
-                alert('Вы нажали первую кнопку')
+                alert(document.title)
             }
 
             function func2() {
-                alert('Вы нажали вторую кнопку')
+                alert(document.URL)
             }
 
             function func3() {
                 alert('Вы нажали третью кнопку')
+                document.title = "Новый заголовк";
             }
         </script>
     </head>

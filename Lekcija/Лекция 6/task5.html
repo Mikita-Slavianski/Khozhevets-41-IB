@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title> Задание 5 </title>
+        <script>
+            var n = 0;
+            var NN = ["150px", "180px", "210px", "240px", "270px", "300px"];
+
+            function func2() {
+                n = (n + 1) % NN.length;
+                document.getElementById("rr1").style.height = NN[n];
+            }
+        </script>
+    </head>
+    <body style="background-color:blue">
+        <img id="rr1" src="pic1.jpg" style="height:150px" onclick="func2()">
+        <p style="color:yellow"></p>
+    </body>
+</html>
