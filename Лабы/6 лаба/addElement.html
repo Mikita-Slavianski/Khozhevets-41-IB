@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Добавление элемента (append)</title>
+    </head>
+    <body>
+        <script>
+            const header = document.createElement("h1");
+            const headerText = document.createTextNode("Hello World");
+            header.appendChild(headerText);
+            header.textContent = "Hello World";
+            document.body.appendChild(header);
+        </script>
+    </body>
+</html>

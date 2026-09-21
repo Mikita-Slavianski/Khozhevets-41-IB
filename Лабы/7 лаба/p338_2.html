@@ -1,0 +1,21 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <form> Я обучаюсь в колледже на:
+            <input type="radio" name="kyrs" value="1"> 1
+            <input type="radio" name="kyrs" value="2"> 2
+            <input type="radio" name="kyrs" value="3" checked> 3
+            <input type="radio" name="kyrs" value="4"> 4 курсе
+            <input type = button value="Обработать" onclick="f1();">
+        </form>
+        <script>
+            function f1() {
+                let k = document.forms[0].kyrs;
+                for(let elem of k) {
+                if(elem.checked) alert(elem.value);
+            }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Две формы с проверкой</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    form { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; max-width: 400px; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 5px; box-sizing: border-box; }
+    button { margin-top: 10px; padding: 6px 14px; }
+    .error { color: red; font-size: 13px; min-height: 16px; }
+    .ok { color: green; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <!-- ФОРМА 1. Регистрация -->
+  <form id="regForm" novalidate>
+    <h3>Регистрация</h3>
+
+    <label for="rName">Имя:</label>
+    <input id="rName" type="text">
+    <div class="error" id="rNameErr"></div>
+
+    <label for="rEmail">E-mail:</label>
+    <input id="rEmail" type="email">
+    <div class="error" id="rEmailErr"></div>
+
+    <label for="rPass">Пароль (от 6 символов):</label>
+    <input id="rPass" type="password">
+    <div class="error" id="rPassErr"></div>
+
+    <button type="submit">Зарегистрироваться</button>
+  </form>
+
+  <!-- ФОРМА 2. Вход -->
+  <form id="loginForm" novalidate>
+    <h3>Вход</h3>
+
+    <label for="lEmail">E-mail:</label>
+    <input id="lEmail" type="email">
+    <div class="error" id="lEmailErr"></div>
+
+    <label for="lPass">Пароль:</label>
+    <input id="lPass" type="password">
+    <div class="error" id="lPassErr"></div>
+
+    <button type="submit">Войти</button>
+  </form>
+
+  <script>
+    // --- ФОРМА 1: регистрация ---
+    const regForm = document.getElementById('regForm');
+
+    regForm.addEventListener('submit', function (e) {
+      e.preventDefault();                     // не перезагружаем страницу
+      let valid = true;
+
+      const name  = document.getElementById('rName');
+      const email = document.getElementById('rEmail');
+      const pass  = document.getElementById('rPass');
+
+      // Имя — минимум 2 символа, без лишних пробелов
+      name.value = name.value.trim();
+      if (name.value.length < 2) {
+        setError('rNameErr', 'Имя должно содержать минимум 2 символа');
+        valid = false;
+      } else clearError('rNameErr');
+
+      // E-mail — простая проверка через регулярное выражение
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRe.test(email.value)) {
+        setError('rEmailErr', 'Введите корректный e-mail');
+        valid = false;
+      } else clearError('rEmailErr');
+
+      // Пароль — от 6 символов
+      if (pass.value.length < 6) {
+        setError('rPassErr', 'Пароль должен быть не короче 6 символов');
+        valid = false;
+      } else clearError('rPassErr');
+
+      if (valid) {
+        alert('Регистрация прошла успешно!');
+        regForm.reset();
+      }
+    });
+
+    // --- ФОРМА 2: вход ---
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let valid = true;
+
+      const email = document.getElementById('lEmail');
+      const pass  = document.getElementById('lPass');
+
+      if (email.value.trim() === '') {
+        setError('lEmailErr', 'Введите e-mail');
+        valid = false;
+      } else clearError('lEmailErr');
+
+      if (pass.value === '') {
+        setError('lPassErr', 'Введите пароль');
+        valid = false;
+      } else clearError('lPassErr');
+
+      if (valid) {
+        alert('Добро пожаловать, ' + email.value + '!');
+        loginForm.reset();
+      }
+    });
+
+    // --- вспомогательные функции ---
+    function setError(id, msg) {
+      document.getElementById(id).textContent = msg;
+    }
+    function clearError(id) {
+      document.getElementById(id).textContent = '';
+    }
+  </script>
+
+</body>
+</html>

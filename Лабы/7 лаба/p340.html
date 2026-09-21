@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Коллекции</title>
+        <script>
+            function l_image() {
+                let a = document.f.im.selectedIndex;
+                switch (a) {
+                    case 0: a='image/banana.jpg'; break;
+                    case 1: a='image/strawberry.jpg'; break;
+                    case 2: a='image/lemon.jpg'; break;
+                    case 3: a='image/orange.jpg'; break;
+                }
+                document.images[0].src = a;
+            }
+        </script>
+    </head>
+    <body>
+        <center>
+            <img src="image/strawberry.jpg" height="200"> <br><br>
+            <form name="f">
+                <select name="im" onchange="l_image();" size="3">
+                    <option> Бананы </option>
+                    <option selected> Клубника </option>
+                    <option> Лимоны </option>
+                    <option> Апельсины </option>
+                </select>
+            </form>
+        </center>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <form>
+            <fieldset><legend style="text-align: right;">CCO</legend>
+                <label for="code">Код специальности: </label><input type="text" id="code" placeholder="2-40 01 01">
+                <label>Название специальности:</label><input required>
+            </fieldset>
+            <input type="button" value="Изменить" onclick="f1();">
+        </form>
+        <script>
+            function f1() {
+                alert(document.forms[0].elements[0].type);
+                alert(document.forms[0].elements[1].outerHTML);
+                document.getElementsByTagName('legend')[0].innerText = "Среднее специальное образование";
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title> Объект style </title>
+        <script>
+            function displ() {
+                if (md.style.display == "") {
+                    md.style.display = "none";
+                    a1.style.paddingLeft = "0px";
+                } else {
+                    md.style.display = "";
+                    a1.style.paddingLeft = "130px";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <a href="#" id="a1" onclick="displ();"> test </a>
+        <div id="md" style="display: none;">
+            <img src="1.png" onclick="displ();">
+        </div>
+    </body>
+</html>

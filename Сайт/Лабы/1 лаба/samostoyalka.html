@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Самостоятельное задание</title>
+        <script>
+            function updateInfo() {
+                var info = document.getElementById('info');
+                info.innerHTML = 'Ширина окна: ' + window.innerWidth + 'px<br>' +
+                'Высота окна: ' + window.innerHeight + 'px<br>' +
+                'Прокрутка по вертикали: ' + window.pageYOffset + 'px';
+            }
+
+            function scrollDown() {
+                window.scrollBy(0, 100);
+                updateInfo();
+            }
+
+            function scrollUp() {
+                window.scrollBy(0, -100);
+                updateInfo();
+            }
+
+            function printPage() {
+                window.print();
+            }
+
+            window.onload = updateInfo;
+            window.onresize = updateInfo;
+            window.onscroll = updateInfo;
+        </script>
+    </head>
+    <body>
+        <h1>Демонстрация объекта window</h1>
+
+        <div id="info"></div>
+
+        <button onclick="scrollDown()">Прокрутить вниз</button>
+        <button onclick="scrollUp()">Прокрутить вверх</button>
+        <button onclick="printPage()">Печать</button>
+    </body>
+</html>

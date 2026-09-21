@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title> Пример 16 </title>
+        <script>
+            function func1() {
+                alert(document.body.childNodes.length);
+            }
+
+            function func2() {
+                alert(document.forms.length);
+            }
+
+            function func3() {
+                alert(document.forms[0].elements.length);
+            }
+        </script>
+    </head>
+    <body style="background-color:green">
+        <p style="color:yellow">Пример использования формы с кнопками</p>
+        <form>
+            <input type="button" value="Первая" onclick="func1()">
+            <input type="button" value="Вторая" onclick="func2()">
+            <input type="button" value="Третья" onclick="func3()">
+        </form>
+    </body>
+</html>

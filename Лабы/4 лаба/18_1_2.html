@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Приближающееся изображение</title>
+        <script>
+            var h = 200;
+            var maxH = 400;
+            var d = document;
+
+            function succpict() {
+                if (h < maxH) {
+                    h = h + 10;
+                    d.images[0].height = h;
+                    setTimeout("siccpict()", 500);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h4>При наведении курсора мыши на рисунок<br>изображение начинает приближаться к зрителю</h4>
+        <img src="1.png" name="mypict" height="200" onmouseover="succpict()">
+    </body>
+</html>

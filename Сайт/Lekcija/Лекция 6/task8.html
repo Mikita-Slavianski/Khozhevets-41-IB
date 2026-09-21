@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title> Задание 8 </title>
+        <script>
+            var n = 0;
+            var NN = ["150px", "180px", "210px", "240px", "270px", "300px"];
+
+            function update() {
+                document.getElementById("rr1").style.height = NN[n];
+                document.getElementById("btnInc").disabled = (n === NN.length - 1);
+                document.getElementById("btnDec").disabled = (n === 0);
+            }
+
+            function increase() {
+                if (n < NN.length - 1) {
+                    n++;
+                    update();
+                }
+            }
+
+            function decrease() {
+                if (n > 0) {
+                    n--;
+                    update();
+                }
+            }
+
+            window.onload = update;
+        </script>
+    </head>
+    <body style="background-color:blue">
+        <img id="rr1" src="pic1.jpg" style="height:150px">
+        <div>
+            <button id="btnInc" type="button" onclick="increase()">Увеличить</button>
+            <button id="btnDec" type="button" onclick="decrease()">Уменьшить</button>
+        </div>
+    </body>
+</html>

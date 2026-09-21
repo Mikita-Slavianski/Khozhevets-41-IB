@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title> Пример 15 </title>
+        <script>
+            function func1(e) {
+                e = e || event;
+                document.title = "(" + e.clientX + "," + e.clientY + ")";
+            }
+
+            function func2() {
+                alert('Вы нажали вторую кнопку')
+            }
+
+            function func3() {
+                alert('Вы нажали третью кнопку')
+            }
+        </script>
+    </head>
+    <body style="background-color:green" onmousedown = "func1(event)">
+        <p style="color:yellow">Пример использования формы с кнопками</p>
+        <form>
+            <input type="button" value="Первая" onclick="func1()">
+            <input type="button" value="Вторая" onmouseover="func1(event)">
+            <input type="button" value="Третья" onclick="func3()">
+        </form>
+    </body>
+</html>

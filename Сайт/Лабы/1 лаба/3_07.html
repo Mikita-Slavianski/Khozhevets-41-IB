@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script>
+            function Win() {
+                let wind = prompt('Введите адрес документа для открытия', '3_05.html');
+                let answer = confirm('Желаете переместить фокус на новое окно?')
+                let myWin = open(wind, "", "resizable=no,location=yes");
+                if(answer) {
+                    myWin.focus();
+                }
+                else {
+                    myWin.blur();
+                }
+            }
+
+            function Res() {
+                let x = prompt('Введите размер в пикселах для изменения ширины окна \n (знак минус уменьшит окно)', '200');
+                let y = prompt('Введите размер в пикселах для изменения высоты окна \n (знак минус уменьшит окно)', '-100');
+                window.resizeBy(x, y);
+            }
+        </script>
+    </head>
+    <body>
+        Если желаете открыть другой документ в новом окне, нажмите кнопку "Открыть"
+        <input type="button" value="Открыть" onclick="Win();">
+        <br><br>
+        Если желаете изменить размеры текущего окна, нажмите на кнопку "Изменить"
+        <input type="button" value="Изменить" onclick="Res();">
+    </body>
+</html>

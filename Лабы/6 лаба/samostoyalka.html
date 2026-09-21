@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самостоялка</title>
+</head>
+<body>
+    <div id="container">
+        <div>Элемент 1</div>
+        <div>Элемент 2</div>
+        <div>Элемент 3</div>
+        <div>Элемент 4</div>
+        <div>Элемент 5</div>
+        <div>Элемент 6</div>
+        <div>Элемент 7</div>
+        <div>Элемент 8</div>
+        <div>Элемент 9</div>
+        <div>Элемент 10</div>
+        <div>Элемент 11</div>
+        <div>Элемент 12</div>
+        <div>Элемент 13</div>
+        <div>Элемент 14</div>
+        <div>Элемент 15</div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+
+        let el9 = container.firstElementChild;
+        for (let i = 1; i < 9; i++) {
+            el9 = el9.nextSibling;
+            while (el9 && el9.nodeType !== 1) {
+                el9 = el9.nextSibling;
+            }
+        }
+
+        console.log('Удаляем: ', el9.textContent);
+
+        const parent = el9.parentNode;
+        const nextEl = el9.nextSibling;
+        parent.removeChild(el9);
+
+        const p = document.createElement('p');
+        p.textContent = 'Хожевец Никита';
+        parent.insertBefore(p, nextEl);
+
+        const h3 = document.createElement('h3');
+        h3.textContent = 'Хожевец Никита';
+        parent.replaceChild(h3, p);
+
+        const clone = h3.cloneNode(true);
+        parent.insertBefore(clone, parent.firstElementChild);
+
+        const last = container.lastElementChild;
+        console.log('Последний элемент: ', last.textContent);
+
+        let prev = h3.previousSibling;
+        while (prev && prev.nodeType !== 1) prev = prev.previousSibling;
+        console.log('Предыдущий элемент перед h3: ', prev ? prev.textContent : 'нет');
+    </script>
+</body>
+</html>

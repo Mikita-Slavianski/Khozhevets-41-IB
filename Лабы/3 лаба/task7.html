@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>Изменение стилей элемента</title>
+        <style>
+            body { font-family: sans-serif; margin: 20px; }
+
+            .container {
+                position: relative;
+                width: 500px;
+                height: 300px;
+                border: 2px solid #333;
+                background-color: #f0f0f0;
+                margin-bottom: 15px;
+                overflow: hidden;
+            }
+
+            #targetElement {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+
+                width: 100px;
+                height: 100px;
+                background-color: #ff5722;
+                color: white;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+            }
+
+            .controls { margin-bottom: 10px; }
+            button { padding: 6px 10px; cursor: pointer; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="targetElement">Блок</div>
+        </div>
+
+        <div class="controls">
+            <strong>Размер:</strong>
+            <button onclick="changeSize(150, 150)">Увелиить</button>
+            <button onclick="changeSize(100, 100)">Сбросить</button>
+        </div>
+
+        <div class="controls">
+            <strong>Шрифт:</strong>
+            <button onclick="changeFont('24px')">Крупный</button>
+            <button onclick="changeFont('14px')">Обычный</button>
+        </div>
+
+        <div class="controls">
+            <strong>Положение:</strong>
+            <button onclick="moveLeftTop()">В левый верхний угол</button>
+            <button onclick="moveRightBottom()">В правый нижний угол</button>
+        </div>
+
+        <script>
+            const box = document.getElementById('targetElement');
+
+            function changeSize(newWidth, newHeight) {
+                box.style.width = newWidth = 'px';
+                box.style.height = newHeight + 'px';
+            }
+
+            function changeFont(newSize) {
+                box.style.fontSize = newSize;
+            }
+
+            function moveLeftTop() {
+                box.style.right = 'auto';
+                box.style.bottom = 'auto';
+
+                box.style.left = '20px';
+                box.style.top = '20px';
+            }
+
+            function moveRightBottom() {
+                box.style.left = 'auto';
+                box.style.top = 'auto';
+
+                box.style.right = '20px';
+                box.style.bottom = '20px';
+            }
+        </script>
+    </body>
+</html>

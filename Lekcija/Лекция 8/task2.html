@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title> Задание 2 </title>
+        <script>
+            function func1() {
+                var text1 = document.getElementById("tp1").value.trim();
+                var p1 = text1.split(":");
+                if (p1.length !== 3) {
+                    alert("Введите время в формате чч:мм:сс");
+                    return;
+                }
+                var h1 = parseInt(p1[0]);
+                var m1 = parseInt(p1[1]);
+                var s1 = parseInt(p1[2]);
+                if (isNaN(h1) || isNaN(m1) || isNaN(s1)) {
+                    alert("Некорректное время в первом поле!");
+                    return;
+                }
+
+                var dat1 = new Date();
+                dat1.setHours(h1, m1, s1, 0);
+
+
+                var text2 = document.getElementById("tp2").value.trim();
+                var p2 = text2.split(":");
+                if (p2.length !== 3) {
+                    alert("Введите время в формате чч:мм:сс");
+                    return;
+                }
+                var h2 = parseInt(p2[0]);
+                var m2 = parseInt(p2[1]);
+                var s2 = parseInt(p2[2]);
+                if (isNaN(h2) || isNaN(m2) || isNaN(s2)) {
+                    alert("Некорректное время во втором поле!");
+                    return;
+                }
+
+                var dat2 = new Date();
+                dat2.setHours(h2, m2, s2, 0);
+
+                
+                document.getElementById("tp1").value = dat1.toLocaleTimeString();
+                document.getElementById("tp2").value = dat2.toLocaleTimeString();
+
+                var nn = Math.abs(dat1.getTime() - dat2.getTime());
+                nn = Math.floor(nn / (1000 * 60));
+                document.getElementById("tp3").value = nn;
+            }
+
+            function func2() {
+                document.getElementById("tp1").value = "";
+                document.getElementById("tp2").value = "";
+                document.getElementById("tp3").value = "";
+            }
+        </script>
+    </head>
+    <body style="background-color:green">
+        <p style="color:yellow">Пример использования формы с кнопками</p>
+        <form>
+            <input id="tp1" type="text" size=80 value=""><br>
+            <input id="tp2" type="text" size=80 value=""><br>
+            <input id="tp3" type="text" size=80 value="">
+            <br>
+            <input type="button" value="Вычислить" style="background-color: pink;" onclick="func1()">
+            <input type="button" value="Очистить" style="background-color: lightblue;" onclick="func2()">
+        </form>
+    </body>
+</html>

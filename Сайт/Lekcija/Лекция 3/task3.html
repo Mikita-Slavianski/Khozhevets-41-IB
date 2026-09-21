@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title> Задание 3 </title>
+        <script>
+            function func1(e) {
+                e = e || event;
+                document.title = "Код кнопки: " + event.button;
+            }
+
+            function func2(e) {
+                e = e || event;
+                document.title = "Код клавиши: " + event.keyCode
+            }
+
+            function func3() {
+                alert('Вы нажали третью кнопку')
+            }
+        </script>
+    </head>
+    <body style="background-color:green" onkeydown = "func2(event)">
+        <p style="color:yellow">Пример использования формы с кнопками</p>
+        <form>
+            <input type="button" value="Первая" onmousedown = "func1(event)">
+            <input type="button" value="Вторая" onmousedown = "func1(event)">
+            <input type="button" value="Третья" onmousedown = "func1(event)">
+            <input type="button" value="Четвёртая" onmousedown = alert(navigator.userAgent);
+        </form>
+    </body>
+</html>

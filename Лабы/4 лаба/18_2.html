@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Смена изображений</title>
+    </head>
+    <script>
+        var numimg = 0;
+        var imgslide = new Array();
+        var N = 13;
+        for (var i = 0; i < N; i++) {
+            imgslide[i] = new Image();
+            imgslide[i].src = 'pic' + i + '.png';
+        }
+
+        function demoslides() {
+            document.images[0].src = imgslide[numimg].src;
+            numimg = (numimg + 1) % N;
+            setTimeout(demoslides, 1000);
+        }
+    </script>
+    <body bgcolor="#FFFFFF">
+        <p><img src="p.jpg" width="420" height="500"></p>
+        <input type="button" value="Демонстрация слуцких поясов" onclick="demoslides()">
+    </body>
+</html>
