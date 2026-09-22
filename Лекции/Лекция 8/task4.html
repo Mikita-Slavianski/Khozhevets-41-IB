@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title> Задание 4 </title>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                background-color: green;
+            }
+            #cl {
+                position: absolute;
+                top: 40px;
+                left: 40px;
+                font-size: 28px;
+                font-family: Arial;
+                background: white;
+                height: 30px;
+                width: 150px;
+                border: 7px double black;
+                text-align: center;
+                cursor: move;
+                user-select: none;
+            }
+        </style>
+    </head>
+    <body onload="setInterval('clock()', 500)">
+        <div id="cl" draggable="true">23:45</div>
+        <script>
+            var dd = ":";
+
+            function clock() {
+                var data = new Date();
+                var h = data.getHours();
+                var min = data.getMinutes();
+
+                if (parseInt(h)<10) h = "0" + h;
+                if (parseInt(min)<10) min = "0" + min;
+                document.getElementById("cl").innerHTML = h + dd + min;
+
+                if(dd==":") dd = " ";
+                else dd=":";
+            }
+
+            var offsetX = 0, offsetY = 0;
+
+            var cl = document.getElementById("cl");
+
+            cl.addEventListener("dragstart", function (e) {
+                var r = cl.getBoundingClientRect();
+                offsetX = e.clientX - r.left;
+                offsetY = e.clientY - r.top;
+
+                e.dataTransfer.setData("text/plain", "clock");
+                e.dataTransfer.effectAllowed = "move";
+            });
+
+            document.body.addEventListener("dragover", function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = "move";
+            });
+
+            document.body.addEventListener("drop", function (e) {
+                e.preventDefault();
+                cl.style.left = (e.clientX - offsetX) + "px";
+                cl.style.top = (e.clientY - offsetY) + "px";
+            })
+        </script>
+    </body>
+</html>

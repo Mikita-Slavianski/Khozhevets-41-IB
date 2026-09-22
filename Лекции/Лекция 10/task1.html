@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 1</title>
+    <script>
+        function clearField() {
+            document.getElementById("tp1").value = "";
+        }
+
+        function writeFromField() {
+            var text = document.getElementById("tp1").value;
+            var parts = text.split(";");
+            if (parts.length < 2) {
+                alert("Введите строку в формате: ключ;значение");
+                return;
+            }
+            var key = parts[0].trim();
+            var value = parts.slice(1).join(";").trim();
+            if (!key) {
+                alert("Ключ не может быть пустым");
+                return;
+            }
+            localStorage.setItem(key, value);
+            document.getElementById("tp1").value = "";
+            alert("Записано в LocalStorage:\n" + key + " = " + value);
+        }
+
+        function readFromField() {
+            var key = document.getElementById("tp1").value.trim();
+            if (!key) { alert("Введите ключ"); return; }
+            var value = localStorage.getItem(key);
+            if (value === null) {
+                alert("Запись с ключом '" + key + "' не найдена");
+            } else {
+                document.getElementById("tp1").value = key + "=" + value;
+            }
+        }
+
+        function deleteFromField() {
+            var key = document.getElementById("tp1").value.trim();
+            if (!key) { alert("Введите ключ"); return; }
+            if (localStorage.getItem(key) === null) {
+                alert("Запись с ключом '" + key + "' и так отсутствует");
+            } else {
+                localStorage.removeItem(key);
+                alert("Запись с ключом '" + key + "' удалена.");
+            }
+            document.getElementById("tp1").value = "";
+        }
+
+        function clearAll() {
+            if (localStorage.length === 0) {
+                alert("Хранилище уже пустое.");
+                return;
+            }
+            if (confirm("Удалить ВСЕ записи из LocalStorage?")) {
+                localStorage.clear();
+                document.getElementById("tp1").value = "";
+                alert("LocalStorage полностью очищено.");
+            }
+        }
+    </script>
+</head>
+<body style="background-color: #e0f0ff; font-family: sans-serif;">
+    <h3>Работа с LocalStorage: запись, чтение, удаление</h3>
+    <p>Для записи введите строку вида: <b>ключ;значение</b>, например: <code>user;Ivan</code></p>
+
+    <form onsubmit="return false;">
+        <input id="tp1" type="text" size="60" placeholder="ключ;значение">
+        <br><br>
+        <input type="button" value="Очистить" style="background-color: pink;" onclick="clearField()">
+        <input type="button" value="Записать" style="background-color: lightblue;" onclick="writeFromField()">
+        <input type="button" value="Прочитать" style="background-color: lightgreen;" onclick="readFromField()">
+        <input type="button" value="Удалить" style="background-color: salmon;" onclick="deleteFromField()">
+        <input type="button" value="Удалить всё" style="background-color: orange;" onclick="clearAll()">
+    </form>
+
+    <hr>
+    <input type="button" value="Показать содержимое хранилища (для проверки)" onclick="showAll()">
+    <script>
+        function showAll() {
+            if (localStorage.length === 0) {
+                alert("LocalStorage пустое");
+                return;
+            }
+            var out = "";
+            for (var i = 0; i < localStorage.length; i++) {
+                var k = localStorage.key(i);
+                out += k + " = " + localStorage.getItem(k) + "\n";
+            }
+            alert("Содержимое LocalStorage:\n\n" + out);
+        }
+    </script>
+</body>
+</html>

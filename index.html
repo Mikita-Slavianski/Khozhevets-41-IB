@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт Хожевца Н.О.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .sidebar {
+            width: 320px;
+            min-width: 320px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 3px 0 12px rgba(0,0,0,0.2);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.3rem;
+            color: #f8fafc;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .nav-category {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .category-header {
+            padding: 14px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .category-header:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .category-icon {
+            font-size: 1.2rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .category-arrow {
+            margin-left: auto;
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+            color: #64748b;
+        }
+
+        .nav-category.open > .category-header .category-arrow {
+            transform: rotate(90deg);
+            color: #38bdf8;
+        }
+
+        .nav-category.open > .category-header {
+            color: #38bdf8;
+        }
+
+        .category-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(0,0,0,0.15);
+        }
+
+        .nav-category.open > .category-body {
+            max-height: 2000px;
+        }
+
+        .nav-group {
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .group-header {
+            padding: 11px 20px 11px 48px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .group-header:hover {
+            background: rgba(255,255,255,0.05);
+            color: #f1f5f9;
+        }
+
+        .group-arrow {
+            margin-left: auto;
+            font-size: 0.65rem;
+            transition: transform 0.3s;
+            color: #475569;
+        }
+
+        .nav-group.open > .group-header .group-arrow {
+            transform: rotate(90deg);
+            color: #38bdf8;
+        }
+
+        .nav-group.open > .group-header {
+            color: #7dd3fc;
+        }
+
+        .group-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .nav-group.open > .group-body {
+            max-height: 1000px;
+        }
+
+        .file-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px 10px 72px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.84rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .file-link:hover {
+            background: rgba(56, 189, 248, 0.08);
+            color: #e2e8f0;
+            border-left-color: #38bdf8;
+        }
+
+        .file-link.active {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border-left-color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .file-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #475569;
+            flex-shrink: 0;
+        }
+
+        .file-link.active .file-dot,
+        .file-link:hover .file-dot {
+            background: #38bdf8;
+        }
+
+        .category-body > .file-link {
+            padding-left: 58px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .top-bar {
+            padding: 14px 28px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .breadcrumb span {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .iframe-wrapper {
+            flex: 1;
+            position: relative;
+            background: #f8fafc;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h1>Хожевец Н.О.</h1>
+        <p>Лабораторные · Лекции · Контрольная</p>
+    </div>
+
+    <nav>
+        <div class="nav-category">
+            <div class="category-header">
+                <span class="category-icon">🧪</span>
+                Лабораторные работы
+                <span class="category-arrow">▶</span>
+            </div>
+            <div class="category-body">
+
+                <!-- Лаб 1 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №1
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/1 лаба/3_05.html" data-crumb="Лабы → Лаб 1 → 3_05.html">
+                            <span class="file-dot"></span> 3_05.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/1 лаба/3_06.html" data-crumb="Лабы → Лаб 1 → 3_06.html">
+                            <span class="file-dot"></span> 3_06.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/1 лаба/3_07.html" data-crumb="Лабы → Лаб 1 → 3_07.html">
+                            <span class="file-dot"></span> 3_07.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/1 лаба/3_08.html" data-crumb="Лабы → Лаб 1 → 3_08.html">
+                            <span class="file-dot"></span> 3_08.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/1 лаба/samostoyalka.html" data-crumb="Лабы → Лаб 1 → samostoyalka.html">
+                            <span class="file-dot"></span> Самостоятельная
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лаб 2 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №2
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/2 лаба/3_09.html" data-crumb="Лабы → Лаб 2 → 3_09.html">
+                            <span class="file-dot"></span> 3_09.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/2 лаба/3_10.html" data-crumb="Лабы → Лаб 2 → 3_10.html">
+                            <span class="file-dot"></span> 3_10.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/2 лаба/3_11.html" data-crumb="Лабы → Лаб 2 → 3_11.html">
+                            <span class="file-dot"></span> 3_11.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/2 лаба/6.html" data-crumb="Лабы → Лаб 2 → 6.html">
+                            <span class="file-dot"></span> Задание 6
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/2 лаба/samostoyalka.html" data-crumb="Лабы → Лаб 2 → samostoyalka.html">
+                            <span class="file-dot"></span> Самостоятельная
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лаб 3 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №3
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/3 лаба/3_12.html" data-crumb="Лабы → Лаб 3 → 3_12.html">
+                            <span class="file-dot"></span> 3_12.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/3 лаба/example3_1.html" data-crumb="Лабы → Лаб 3 → example3_1.html">
+                            <span class="file-dot"></span> Пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/3 лаба/task5.html" data-crumb="Лабы → Лаб 3 → task5.html">
+                            <span class="file-dot"></span> Задание 5
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/3 лаба/task6.html" data-crumb="Лабы → Лаб 3 → task6.html">
+                            <span class="file-dot"></span> Задание 6
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/3 лаба/task7.html" data-crumb="Лабы → Лаб 3 → task7.html">
+                            <span class="file-dot"></span> Задание 7
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/3 лаба/samostoyalka.html" data-crumb="Лабы → Лаб 3 → samostoyalka.html">
+                            <span class="file-dot"></span> Самостоятельная
+                        </a>
+                    </div>
+                </div>
+
+                <!--Лаб 4-->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №4
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/4 лаба/3_13.html" data-crumb="Лабы → Лаб 4 → 3_13.html">
+                            <span class="file-dot"></span> 3_13.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/4 лаба/18_1.html" data-crumb="Лабы → Лаб 4 → 18_1.html">
+                            <span class="file-dot"></span> 18_1.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/4 лаба/18_1_2.html" data-crumb="Лабы → Лаб 4 → 18_1_2.html">
+                            <span class="file-dot"></span> 18_1_2.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/4 лаба/18_2.html" data-crumb="Лабы → Лаб 4 → 18_2.html">
+                            <span class="file-dot"></span> 18_2.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/4 лаба/serde4ko.html" data-crumb="Лабы → Лаб 2 → serde4ko.html">
+                            <span class="file-dot"></span> Сердечко
+                        </a>
+                    </div>
+                </div>
+
+                <!--Лаб 5-->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №5
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/1exm.html" data-crumb="Лабы → Лаб 5 → 1exm.html">
+                            <span class="file-dot"></span> 1 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/2exm.html" data-crumb="Лабы → Лаб 5 → 2exm.html">
+                            <span class="file-dot"></span> 2 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/3exm.html" data-crumb="Лабы → Лаб 5 → 3exm.html">
+                            <span class="file-dot"></span> 3 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/4exm.html" data-crumb="Лабы → Лаб 5 → 4exm.html">
+                            <span class="file-dot"></span> 4 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/5exm.html" data-crumb="Лабы → Лаб 5 → 5exm.html">
+                            <span class="file-dot"></span> 5 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/6exm.html" data-crumb="Лабы → Лаб 5 → 6exm.html">
+                            <span class="file-dot"></span> 6 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/7exm.html" data-crumb="Лабы → Лаб 5 → 7exm.html">
+                            <span class="file-dot"></span> 7 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/8exm.html" data-crumb="Лабы → Лаб 5 → 8exm.html">
+                            <span class="file-dot"></span> 8 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/9exm.html" data-crumb="Лабы → Лаб 5 → 9exm.html">
+                            <span class="file-dot"></span> 9 пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/5 лаба/samostoyalka.html" data-crumb="Лабы → Лаб 5 → samostoyalka.html">
+                            <span class="file-dot"></span> Самостоятельная
+                        </a>
+                    </div>
+                </div>
+
+                <!--Лаб 6-->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №6
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/addElement.html" data-crumb="Лабы → Лаб 6 → addElement.html">
+                            <span class="file-dot"></span> addElement
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/cloneNode.html" data-crumb="Лабы → Лаб 6 → cloneNode.html">
+                            <span class="file-dot"></span> cloneNode
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/createElement.html" data-crumb="Лабы → Лаб 6 → createElement.html">
+                            <span class="file-dot"></span> createElement
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/insertBefore.html" data-crumb="Лабы → Лаб 6 → insertBefore.html">
+                            <span class="file-dot"></span> insertBefore
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/removeAll.html" data-crumb="Лабы → Лаб 6 → removeAll.html">
+                            <span class="file-dot"></span> removeAll
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/removeChild.html" data-crumb="Лабы → Лаб 6 → removeChild.html">
+                            <span class="file-dot"></span> removeChild
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/replaceChild.html" data-crumb="Лабы → Лаб 6 → replaceChild.html">
+                            <span class="file-dot"></span> replaceChild
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/6 лаба/samostoyalka.html" data-crumb="Лабы → Лаб 6 → samostoyalka.html">
+                            <span class="file-dot"></span> Самостоятельная
+                        </a>
+                    </div>
+                </div>
+
+                <!--Лаб 7-->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лабораторная №7
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p334.html" data-crumb="Лабы → Лаб 7 → p334.html">
+                            <span class="file-dot"></span> p334.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p337.html" data-crumb="Лабы → Лаб 7 → p337.html">
+                            <span class="file-dot"></span> p337.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p338.html" data-crumb="Лабы → Лаб 7 → p338.html">
+                            <span class="file-dot"></span> p338.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p338_2.html" data-crumb="Лабы → Лаб 7 → p338_2.html">
+                            <span class="file-dot"></span> p338_2.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p339.html" data-crumb="Лабы → Лаб 7 → p339.html">
+                            <span class="file-dot"></span> p339.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p340.html" data-crumb="Лабы → Лаб 7 → p340.html">
+                            <span class="file-dot"></span> p340.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/p342.html" data-crumb="Лабы → Лаб 7 → p342.html">
+                            <span class="file-dot"></span> p342.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лабы/7 лаба/samostoyalka.html" data-crumb="Лабы → Лаб 7 → samostoyalka.html">
+                            <span class="file-dot"></span> Самостоятельная
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============ ЛЕКЦИИ ============ -->
+        <div class="nav-category">
+            <div class="category-header">
+                <span class="category-icon">📖</span>
+                Лекции
+                <span class="category-arrow">▶</span>
+            </div>
+            <div class="category-body">
+
+                <!-- Лекция 1 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №1
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 1/Lek1.html" data-crumb="Лекции → Лекция 1 → Lek1.html">
+                            <span class="file-dot"></span> Lek1.html
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 2 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №2
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/Example1.html" data-crumb="Лекции → Лекция 2 → Example1.html">
+                            <span class="file-dot"></span> Пример
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos1.html" data-crumb="Лекции → Лекция 2 → pos1.html">
+                            <span class="file-dot"></span> pos1.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos2.html" data-crumb="Лекции → Лекция 2 → pos2.html">
+                            <span class="file-dot"></span> pos2.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos3.html" data-crumb="Лекции → Лекция 2 → pos3.html">
+                            <span class="file-dot"></span> pos3.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos4.html" data-crumb="Лекции → Лекция 2 → pos4.html">
+                            <span class="file-dot"></span> pos4.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos5.html" data-crumb="Лекции → Лекция 2 → pos5.html">
+                            <span class="file-dot"></span> pos5.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos6.html" data-crumb="Лекции → Лекция 2 → pos6.html">
+                            <span class="file-dot"></span> pos6.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos7.html" data-crumb="Лекции → Лекция 2 → pos7.html">
+                            <span class="file-dot"></span> pos7.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 2/pos8.html" data-crumb="Лекции → Лекция 2 → pos8.html">
+                            <span class="file-dot"></span> pos8.html
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 3 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №3
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos9.html" data-crumb="Лекции → Лекция 3 → pos9.html">
+                            <span class="file-dot"></span> pos9.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos10.html" data-crumb="Лекции → Лекция 3 → pos10.html">
+                            <span class="file-dot"></span> pos10.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos11.html" data-crumb="Лекции → Лекция 3 → pos11.html">
+                            <span class="file-dot"></span> pos11.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos12.html" data-crumb="Лекции → Лекция 3 → pos12.html">
+                            <span class="file-dot"></span> pos12.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos13.html" data-crumb="Лекции → Лекция 3 → pos13.html">
+                            <span class="file-dot"></span> pos13.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos14.html" data-crumb="Лекции → Лекция 3 → pos14.html">
+                            <span class="file-dot"></span> pos14.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/pos15.html" data-crumb="Лекции → Лекция 3 → pos15.html">
+                            <span class="file-dot"></span> pos15.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/task1.html" data-crumb="Лекции → Лекция 3 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/task2.html" data-crumb="Лекции → Лекция 3 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 3/task3.html" data-crumb="Лекции → Лекция 3 → task3.html">
+                            <span class="file-dot"></span> Задание 3
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 4 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №4
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/pos16.html" data-crumb="Лекции → Лекция 4 → pos16.html">
+                            <span class="file-dot"></span> pos16.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/pos17.html" data-crumb="Лекции → Лекция 4 → pos17.html">
+                            <span class="file-dot"></span> pos17.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/pos18.html" data-crumb="Лекции → Лекция 4 → pos18.html">
+                            <span class="file-dot"></span> pos18.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/pos19.html" data-crumb="Лекции → Лекция 4 → pos19.html">
+                            <span class="file-dot"></span> pos19.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/pos20.html" data-crumb="Лекции → Лекция 4 → pos20.html">
+                            <span class="file-dot"></span> pos20.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/task1.html" data-crumb="Лекции → Лекция 4 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/task2.html" data-crumb="Лекции → Лекция 4 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/task3.html" data-crumb="Лекции → Лекция 4 → task3.html">
+                            <span class="file-dot"></span> Задание 3
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/task4.html" data-crumb="Лекции → Лекция 4 → task4.html">
+                            <span class="file-dot"></span> Задание 4
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/task5.html" data-crumb="Лекции → Лекция 4 → task5.html">
+                            <span class="file-dot"></span> Задание 5
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 4/task6.html" data-crumb="Лекции → Лекция 4 → task6.html">
+                            <span class="file-dot"></span> Задание 6
+                        </a>
+                    </div>
+                </div>
+
+
+                <!-- Лекция 5 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №5
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 5/pos21.html" data-crumb="Лекции → Лекция 5 → pos21.html">
+                            <span class="file-dot"></span> pos21.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 5/task1.html" data-crumb="Лекции → Лекция 5 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 5/task2.html" data-crumb="Лекции → Лекция 5 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 5/task3.html" data-crumb="Лекции → Лекция 5 → task3.html">
+                            <span class="file-dot"></span> Задание 3
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 6 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №6
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos22.html" data-crumb="Лекции → Лекция 6 → pos22.html">
+                            <span class="file-dot"></span> pos22.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos23_1.html" data-crumb="Лекции → Лекция 6 → pos23_1.html">
+                            <span class="file-dot"></span> pos23_1.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos23_2.html" data-crumb="Лекции → Лекция 6 → pos23_2.html">
+                            <span class="file-dot"></span> pos23_2.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos24.html" data-crumb="Лекции → Лекция 6 → pos24.html">
+                            <span class="file-dot"></span> pos24.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos25.html" data-crumb="Лекции → Лекция 6 → pos25.html">
+                            <span class="file-dot"></span> pos25.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos26.html" data-crumb="Лекции → Лекция 6 → pos26.html">
+                            <span class="file-dot"></span> pos26.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/pos27.html" data-crumb="Лекции → Лекция 6 → pos27.html">
+                            <span class="file-dot"></span> pos27.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task1.html" data-crumb="Лекции → Лекция 6 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task1_25.html" data-crumb="Лекции → Лекция 6 → task1_25.html">
+                            <span class="file-dot"></span> Задание 1/25
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task2.html" data-crumb="Лекции → Лекция 6 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task3.html" data-crumb="Лекции → Лекция 6 → task3.html">
+                            <span class="file-dot"></span> Задание 3
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task4.html" data-crumb="Лекции → Лекция 6 → task4.html">
+                            <span class="file-dot"></span> Задание 4
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task5.html" data-crumb="Лекции → Лекция 6 → task5.html">
+                            <span class="file-dot"></span> Задание 5
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task6.html" data-crumb="Лекции → Лекция 6 → task6.html">
+                            <span class="file-dot"></span> Задание 6
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task7.html" data-crumb="Лекции → Лекция 6 → task7.html">
+                            <span class="file-dot"></span> Задание 7
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task8.html" data-crumb="Лекции → Лекция 6 → task8.html">
+                            <span class="file-dot"></span> Задание 8
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 6/task9.html" data-crumb="Лекции → Лекция 6 → task9.html">
+                            <span class="file-dot"></span> Задание 9
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 7 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №7
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 7/pos35.html" data-crumb="Лекции → Лекция 7 → pos35.html">
+                            <span class="file-dot"></span> pos35.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 7/pos36.html" data-crumb="Лекции → Лекция 7 → pos36.html">
+                            <span class="file-dot"></span> pos36.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 7/pos37.html" data-crumb="Лекции → Лекция 7 → pos37.html">
+                            <span class="file-dot"></span> pos37.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 7/pos38.html" data-crumb="Лекции → Лекция 7 → pos38.html">
+                            <span class="file-dot"></span> pos38.html
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 8 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №8
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/pos39.html" data-crumb="Лекции → Лекция 8 → pos39.html">
+                            <span class="file-dot"></span> pos39.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/pos40.html" data-crumb="Лекции → Лекция 8 → pos40.html">
+                            <span class="file-dot"></span> pos40.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/task1.html" data-crumb="Лекции → Лекция 8 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/task2.html" data-crumb="Лекции → Лекция 8 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/task3.html" data-crumb="Лекции → Лекция 8 → task3.html">
+                            <span class="file-dot"></span> Задание 3
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/task4.html" data-crumb="Лекции → Лекция 8 → task4.html">
+                            <span class="file-dot"></span> Задание 4
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/task5.html" data-crumb="Лекции → Лекция 8 → task5.html">
+                            <span class="file-dot"></span> Задание 5
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 8/task6.html" data-crumb="Лекции → Лекция 8 → task6.html">
+                            <span class="file-dot"></span> Задание 6
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 9 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №9
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 9/pos41.html" data-crumb="Лекции → Лекция 9 → pos41.html">
+                            <span class="file-dot"></span> pos41.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 9/task1.html" data-crumb="Лекции → Лекция 9 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 9/task2.html" data-crumb="Лекции → Лекция 9 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 10 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №10
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 10/pos42.html" data-crumb="Лекции → Лекция 10 → pos42.html">
+                            <span class="file-dot"></span> pos42.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 10/task1.html" data-crumb="Лекции → Лекция 10 → task1.html">
+                            <span class="file-dot"></span> Задание 1
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 10/task2.html" data-crumb="Лекции → Лекция 10 → task2.html">
+                            <span class="file-dot"></span> Задание 2
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Лекция 11 -->
+                <div class="nav-group">
+                    <div class="group-header">
+                        Лекция №11
+                        <span class="group-arrow">▶</span>
+                    </div>
+                    <div class="group-body">
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 11/reg1.html" data-crumb="Лекции → Лекция 11 → reg1.html">
+                            <span class="file-dot"></span> reg1.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 11/reg2.html" data-crumb="Лекции → Лекция 11 → reg2.html">
+                            <span class="file-dot"></span> reg2.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 11/reg3.html" data-crumb="Лекции → Лекция 11 → reg3.html">
+                            <span class="file-dot"></span> reg3.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 11/reg4.html" data-crumb="Лекции → Лекция 11 → reg4.html">
+                            <span class="file-dot"></span> reg4.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 11/reg5.html" data-crumb="Лекции → Лекция 11 → reg5.html">
+                            <span class="file-dot"></span> reg5.html
+                        </a>
+                        <a class="file-link" href="#" data-src="Лекции/Лекция 11/reg6.html" data-crumb="Лекции → Лекция 11 → reg6.html">
+                            <span class="file-dot"></span> reg6.html
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============ КОНТРОЛЬНАЯ РАБОТА ============ -->
+        <div class="nav-category">
+            <div class="category-header">
+                <span class="category-icon">✍️</span>
+                Контрольная работа
+                <span class="category-arrow">▶</span>
+            </div>
+            <div class="category-body">
+                <a class="file-link" href="#" data-src="PHP/test.html" data-crumb="Контрольная → Задание 1">
+                    <span class="file-dot"></span> Задание 1
+                </a>
+            </div>
+        </div>
+
+    </nav>
+</aside>
+
+<main class="main-content">
+    <div class="top-bar">
+        <div class="breadcrumb" id="breadcrumb">
+            Выберите задание в меню слева →
+        </div>
+    </div>
+    <div class="iframe-wrapper">
+        <iframe id="content-frame" src="welcome.html"></iframe>
+    </div>
+</main>
+
+<script>
+    document.querySelectorAll('.category-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const category = header.parentElement;
+
+            document.querySelectorAll('.nav-category').forEach(c => {
+                if (c !== category) c.classList.remove('open');
+            });
+
+            category.classList.toggle('open');
+        });
+    });
+
+    document.querySelectorAll('.group-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            const group = header.parentElement;
+
+            const siblings = group.parentElement.querySelectorAll('.nav-group');
+            siblings.forEach(g => {
+                if (g !== group) g.classList.remove('open');
+            });
+
+            group.classList.toggle('open');
+        });
+    });
+
+    const iframe = document.getElementById('content-frame');
+    const breadcrumb = document.getElementById('breadcrumb');
+    const allLinks = document.querySelectorAll('.file-link');
+
+    allLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            allLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            iframe.src = link.dataset.src;
+            breadcrumb.innerHTML = link.dataset.crumb
+                .replace(/→/g, ' <span style="color:#94a3b8">›</span> ')
+                .replace(/([^›]+)$/, '<span>$1</span>');
+        });
+    });
+</script>
+
+</body>
+</html>

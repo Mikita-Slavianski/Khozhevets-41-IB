@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Регулярные выражение 5</title>
+        <script>
+            var reg2 = /\d+/g;
+            var s1 = "ID = 123 №23 abc345def";
+            document.writeln(s1 + "<br>" + s1.match(reg2));
+            var s2 = "000";
+            document.writeln("<br>" + s1.replace(reg2, s2));
+            document.writeln("<br>" + s1);
+        </script>
+    </head>
+</html>

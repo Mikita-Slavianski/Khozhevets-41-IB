@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title> Задание 5 </title>
+        <script>
+            var Xc = 500;
+            var Yc = 400;
+            var K = Math.PI / 30;
+
+            function clock() {
+                var data = new Date();
+                var sec = data.getSeconds();
+                var min = data.getMinutes();
+                var h = data.getHours() % 12;
+
+                for (i=1;i<61;i++) {
+                    document.getElementById("secs"+i).style.top = Yc + 1 - (i-1)*Math.cos(K*sec);
+                    document.getElementById("secs"+i).style.left = Xc + 1 + (i-1)*Math.sin(K*sec);
+                    document.getElementById("mins"+i).style.top = Yc - (i-1)*Math.cos(K*min);
+                    document.getElementById("mins"+i).style.left = Xc + (i-1)*Math.sin(K*min);
+                    if (i < 36) {
+                        document.getElementById("hrs"+i).style.top = Yc - (i-1)*Math.cos(5*K*h + K*min/12);
+                        document.getElementById("hrs"+i).style.left = Xc + (i-1)*Math.sin(5*K*h + K*min/12);
+                    }
+                }
+            }
+
+            function placeDigits() {
+                for (var i = 1; i < 13; i++) {
+                    document.getElementById("digs" + i).style.top = Yc - 8 - 60 * Math.cos(5 * K * i);
+                    document.getElementById("digs" + i).style.left = Xc - 8 + 60 * Math.sin(5 * K * i);
+                }
+            }
+
+            function init() {
+                placeDigits();
+                clock();
+                setInterval(clock, 500);
+                setupDrag();
+            }
+
+            function setupDrag() {
+                var dragging = false;
+                var startX, startY, startXc, startYc;
+
+                document.addEventListener("mousedown", function (e) {
+                    dragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startXc = Xc;
+                    startYc = Yc;
+                    document.body.style.cursor = "move";
+                    e.preventDefault();
+                });
+
+                document.addEventListener("mousemove", function (e) {
+                    if (!dragging) return;
+                    Xc = startXc + (e.clientX - startX);
+                    Yc = startYc + (e.clientY - startY);
+                    placeDigits();
+                    clock();
+                });
+
+                document.addEventListener("mouseup", function() {
+                    dragging = false;
+                    document.body.style.cursor = "";
+                })
+            }
+        </script>
+    </head>
+    <body style="background-color:lightgreen" onload="init()">
+        <script>
+            for(i=1;i<13;i++) {
+                document.write('<div id="digs'+i+'" style="position:absolute; width:19px; font-family: Arial Black; font-size: 14px; color:blue; text-align:center;">'+i+'</div>');
+            }
+
+            for(i=1;i<36;i++) {
+                document.write('<img id="hrs'+i+'" src="darkblue.jpg" style="position: absolute; width: 3px; height:3px;">');
+            }
+
+            for(i=1;i<61;i++) {
+                document.write('<img id="mins'+i+'" src="darkblue.jpg" style="position:absolute; width:3px; height:3px;">');
+            }
+
+            for(i=1;i<61;i++) {
+                document.write('<img id="secs'+i+'" src="red.jpg" style="position:absolute; width:3px; height:3px;">');
+            }
+
+            var Xc=500;
+            var Yc=400;
+            var K = Math.PI/30;
+
+            for (i=1; i<13; i++) {
+                document.getElementById("digs" + i).style.top = Yc - 8 - 60 * Math.cos(5*K*i);
+                document.getElementById("digs"+i).style.left = Xc - 8 + 60 * Math.sin(5*K*i);
+            }
+        </script>
+
+    </body>
+</html>

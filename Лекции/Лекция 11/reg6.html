@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title> Регулярные выражение 6 </title>
+        <script>
+            function func1() {
+                document.getElementById("tp1").value = "";
+            }
+
+            function func2() {
+                var text = document.getElementById("tp1").value;
+                var name = text.split(";")[0];
+                var value = text.split(";")[1];
+                var ds = text.split(";")[2];
+                writeCookie(name, value, ds);
+                document.getElementById("tp1").value = "";
+                
+            }
+
+            function func3() {
+                name = document.getElementById("tp1").value;
+                document.getElementById("tp1").value = name + '=' + readCookie(name);
+            }
+
+            function writeCookie(name, value, ds) {
+                var date = new Date();
+                date.setTime(date.getTime() + ds*1000*60*60*24);
+                document.cookie = name + "=" + escape(value) + "; expires=" + date.toGMTString();
+            }
+
+            function readCookie(name) {
+                var reg = new RegExp("(?:^|; )" + name + "=[^;]*)");
+                var exec = reg.exec(document.cookie);
+                return exec ? unescape(exec[2]) : undefined;
+            }
+        </script>
+    </head>
+    <body style="background-color:green">
+        <p style="color:yellow">Пример использования формы с кнопками</p>
+        <form>
+            <input id="tp1" type="text" size=80 value="">
+            <br>
+            <input type="button" value="Очистить" style="background-color: pink;" onclick="func1()">
+            <input type="button" value="Запомнить" style="background-color: lightblue;" onclick="func2()">
+            <input type="button" value="Вывести" style="background-color: lightgreen;" onclick="func3()">
+        </form>
+    </body>
+</html>

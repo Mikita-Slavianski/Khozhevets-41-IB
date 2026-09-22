@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Регулярные выражения 3</title>
+        <script>
+            var reg = /vc./;
+
+            var s1 = "asdfghjkmnbxz";
+            var s2 = "asdfgvcxhjkmnvcbxz";
+
+            document.write(reg.test(s1) + '<br>' + reg.test(s2));
+            document.write('<br>' + reg.exec(s1) + '<br>' + reg.exec(s2));
+
+            document.write("<br>" + RegExp.input + "<br>" + RegExp.index);
+            document.write("<br>" + RegExp.leftContext);
+            document.write("<br>" + RegExp.rightContext);
+        </script>
+    </head>
+</html>

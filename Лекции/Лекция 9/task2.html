@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 1]2</title>
+    <script>
+        function createField() {
+            document.getElementById("tp1").value = "";
+        }
+
+        function writeFromField() {
+            var text = document.getElementById("tp1").value;
+            var parts = text.split(";");
+            if (parts.length < 3) {
+                alert("Введите строку в формате: имя;значение;срок_в_днях");
+                return;
+            }
+            var name = parts[0].trim();
+            var value = parts[1].trim();
+            var days = parseFloat(parts[2]);
+            if (!name || isNaN(days)) {
+                alert("Проверьте имя и число дней");
+                return;
+            }
+            writeCookie(name, value, days);
+            document.getElementById("tp1").value = "";
+            alert("Cookie сохранена:\n" + document.cookie);
+        }
+
+        function readFromField() {
+            var name = document.getElementById("tp1").value.trim();
+            if (!name) { alert("Введите имя cookie"); return; }
+            var value = readCookie(name);
+            if (value === null) {
+                alert("Cookie с именем '" + name +"' не найдена");
+            } else {
+                document.getElementById("tp1").value = name + "=" + value;
+            }
+        }
+
+        function deleteFromField() {
+            var name = document.getElementById("tp1").value.trim();
+            if (!name) { alert("Введите имя cookie"); return; }
+            deleteCookie(name);
+            document.getElementById("tp1").value = "";
+            alert("Cookie '" + name + "' удалена.\nТекущие cookie:\n" + document.cookie);
+        }
+
+        function showAllCookies() {
+            var all = document.cookie;
+            if (all === "") {
+                alert("На этой странице нет ни одой cookie.");
+            } else {
+                var list = all.split("; ").join("\n");
+                alert("Все cookie текущей страницы:\n\n" + list);
+            }
+        }
+
+        function writeCookie(name, value, days) {
+            var date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + encodeURIComponent(value) + "; expires=" + date.toUTCString() + "; path=/";
+        }
+
+        function readCookie(name) {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var c = cookies[i].trim();
+                if (c.indexOf(name + "=") === 0) {
+                    return decodeURIComponent(c.substring(name.length + 1));
+                }
+            }
+            return null;
+        }
+
+        function deleteCookie(name) {
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        }
+    </script>
+</head>
+<body style="background-color: #e0f7e0; font-family: sans-serif;">
+    <h3>Работа с cookie: запись, чтение, удаление</h3>
+    <p>Для записи введите строку вида: <b>имя;значение;срок_в_днях</b>, например: <code>user;Ivan;7</code></p>
+
+    <form onsubmit="return false;">
+        <input id="tp1" type="text" size="60" placeholder="имя;значение;срок_в_днях">
+        <br><br>
+        <input type="button" value="Очистить" style="background-color: pink;" onclick="clearField()">
+        <input type="button" value="Записать" style="background-color: lightblue;" onclick="writeFromField()">
+        <input type="button" value="Прочитать" style="background-color: lightgreen;" onclick="readFromField()">
+        <input type="button" value="Удалить" style="background-color: salmon;" onclick="deleteFromField()">
+        <input type="button" value="Показать все" style="background-color: khaki;" onclick="showAllCookies()">
+    </form>
+</body>
+</html>
