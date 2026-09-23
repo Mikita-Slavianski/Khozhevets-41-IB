@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Задание на контрольную</title>
+</head>
+<body>
+
+    <p id="text">Этот текст будет изменяться при выборе флажков.</p>
+
+    <input type="checkbox" value="перечеркнуть"
+           onchange="text.style.textDecoration = this.checked ? 'line-through' : ''"> перечеркнуть<br>
+
+    <input type="checkbox" value="сделать жирным"
+           onchange="text.style.fontWeight = this.checked ? 'bold' : ''"> сделать жирным<br>
+
+    <input type="checkbox" value="сделать красным"
+           onchange="text.style.color = this.checked ? 'red' : ''"> сделать красным
+
+</body>
+</html>
