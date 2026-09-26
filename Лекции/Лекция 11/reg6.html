@@ -28,7 +28,7 @@
             }
 
             function readCookie(name) {
-                var reg = new RegExp("(?:^|; )" + name + "=[^;]*)");
+                var reg = new RegExp("(?:^|; )" + name + "=([^;]*)");
                 var exec = reg.exec(document.cookie);
                 return exec ? unescape(exec[2]) : undefined;
             }

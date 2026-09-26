@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Холст</title>
+</head>
+<body>
+    <canvas id="can" width="400" height="300"></canvas>
+    <script>
+        var canvas = document.getElementById('can');
+        var paint = canvas.getContext("2d");
+
+        paint.lineWidth = 2;
+        paint.strokeStyle = 'blue';
+        paint.fillStyle = 'red';
+        paint.font = 'normal 15px arial';
+
+        paint.strokeRect(50,50,150,100);
+        paint.fillRect(100, 70, 100, 120);
+
+        paint.strokeText('Внимание!', 50, 120);
+    </script>
+</body>
+</html>

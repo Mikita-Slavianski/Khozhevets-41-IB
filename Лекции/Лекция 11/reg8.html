@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регулярка 8</title>
+    <script>
+        var reg = /^_?[a-zA-Z0-9]+([-_\.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-\.][a-zA-Z0-9]+)+$/;
+
+        function clearInput() {
+            document.getElementById("emailInput").value = "";
+            document.getElementById("result").textContent = "";
+        }
+
+        function checkEmail() {
+            var value = document.getElementById("emailInput").value.trim();
+            var result = document.getElementById("result");
+
+            if (reg.test(value)) {
+                result.textContent = "E-mail корректен: " + value;
+                result.style.color = "green";
+            } else {
+                result.textContent = "Неверный формат. Введите email вида max.semenov@mail.ru";
+                result.style.color = "red";
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="emailInput" placeholder="Например: max.semenov@mail.ru">
+    <input type="button" value="Очистить" onclick="clearInput()">
+    <input type="button" value="Проверить" onclick="checkEmail()">
+    <p id="result"></p>
+</body>
+</html>

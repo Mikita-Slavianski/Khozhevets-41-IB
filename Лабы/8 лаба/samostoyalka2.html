@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тестирование по JavaScript</title>
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        padding: 30px 15px;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        justify-content: center;
+        color: #2d3748;
+    }
+
+    .quiz {
+        width: 100%;
+        max-width: 780px;
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 32px 38px 38px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+        margin: 0 0 6px;
+        font-size: 26px;
+        color: #4a3f8f;
+        text-align: center;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #7a7a8c;
+        font-size: 14px;
+        margin-bottom: 28px;
+    }
+
+    .question {
+        background: #f8f9ff;
+        border: 2px solid #e3e6f5;
+        border-left: 5px solid #7c74d6;
+        border-radius: 12px;
+        padding: 18px 22px;
+        margin-bottom: 18px;
+        transition: border-color .25s, background .25s;
+    }
+
+    .question.correct  { border-color: #38a169; background: #f0fbf5; }
+    .question.wrong    { border-color: #e53e3e; background: #fdf3f3; }
+
+    .q-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 14px;
+        line-height: 1.4;
+    }
+
+    .q-num {
+        flex: 0 0 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #7c74d6;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .hint {
+        display: block;
+        font-weight: 400;
+        font-size: 13px;
+        color: #8a8aa0;
+        margin-top: 4px;
+    }
+
+    label.option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background .15s;
+        font-size: 15px;
+    }
+
+    label.option:hover { background: #ecebff; }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #7c74d6;
+        cursor: pointer;
+    }
+
+    select {
+        width: 100%;
+        max-width: 340px;
+        padding: 9px 12px;
+        font-size: 15px;
+        border: 2px solid #d6d9ec;
+        border-radius: 8px;
+        background: #fff;
+        color: #2d3748;
+        cursor: pointer;
+        outline: none;
+        transition: border-color .2s;
+    }
+    select:focus { border-color: #7c74d6; }
+
+    input[type="text"] {
+        width: 100%;
+        max-width: 340px;
+        padding: 10px 14px;
+        font-size: 15px;
+        border: 2px solid #d6d9ec;
+        border-radius: 8px;
+        outline: none;
+        transition: border-color .2s;
+    }
+    input[type="text"]:focus { border-color: #7c74d6; }
+
+    .match-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .match-term {
+        flex: 1 1 160px;
+        font-family: 'Consolas', monospace;
+        background: #ecebff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #4a3f8f;
+        font-weight: 600;
+    }
+    .match-row select { flex: 1 1 260px; }
+
+    .actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 26px;
+    }
+
+    button {
+        padding: 13px 34px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform .15s, box-shadow .15s, background .2s;
+    }
+
+    #checkBtn {
+        background: linear-gradient(135deg, #7c74d6, #9d5fd6);
+        color: #fff;
+        box-shadow: 0 6px 18px rgba(124, 116, 214, .4);
+    }
+    #checkBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(124, 116, 214, .5); }
+
+    #resetBtn {
+        background: #eef0fa;
+        color: #4a3f8f;
+    }
+    #resetBtn:hover { background: #e0e3f5; }
+
+    #result {
+        display: none;
+        margin-top: 24px;
+        padding: 20px 24px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #result .grade { font-size: 34px; display: block; margin-top: 6px; }
+    #result .detail { display: block; font-size: 14px; font-weight: 400; margin-top: 8px; color: #555; }
+
+    .g5 { background: #e6fffa; color: #1d7a5c; border: 2px solid #38a169; }
+    .g4 { background: #ebf8ff; color: #2b6cb0; border: 2px solid #3182ce; }
+    .g3 { background: #fffaf0; color: #b7791f; border: 2px solid #d69e2e; }
+    .g2 { background: #fff5f5; color: #c53030; border: 2px solid #e53e3e; }
+
+    .feedback {
+        display: none;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #4a5568;
+        background: #fff;
+        border-radius: 8px;
+        padding: 8px 12px;
+    }
+    .feedback.show { display: block; }
+    .feedback b { color: #2f855a; }
+</style>
+</head>
+<body>
+
+<div class="quiz">
+    <h1>Тест по основам JavaScript</h1>
+    <p class="subtitle">5 заданий • максимальный балл — 10</p>
+
+    <!-- ============ ВОПРОС 1. Одиночный выбор ============ -->
+    <div class="question" id="q1">
+        <div class="q-header">
+            <span class="q-num">1</span>
+            <div>Какой оператор в JavaScript выполняет <b>строгое</b> сравнение (без приведения типов)?
+                <span class="hint">Выберите один вариант ответа</span>
+            </div>
+        </div>
+        <label class="option"><input type="radio" name="q1" value="=="> ==</label>
+        <label class="option"><input type="radio" name="q1" value="==="> ===</label>
+        <label class="option"><input type="radio" name="q1" value="="> =</label>
+        <label class="option"><input type="radio" name="q1" value="!="> !=</label>
+        <div class="feedback" id="fb1">Правильный ответ: <b>===</b></div>
+    </div>
+
+    <!-- ============ ВОПРОС 2. Множественный выбор ============ -->
+    <div class="question" id="q2">
+        <div class="q-header">
+            <span class="q-num">2</span>
+            <div>Какие из перечисленных типов данных являются <b>примитивными</b> в JavaScript?
+                <span class="hint">Выберите все правильные варианты (их несколько)</span>
+            </div>
+        </div>
+        <label class="option"><input type="checkbox" name="q2" value="string"> string</label>
+        <label class="option"><input type="checkbox" name="q2" value="object"> object</label>
+        <label class="option"><input type="checkbox" name="q2" value="number"> number</label>
+        <label class="option"><input type="checkbox" name="q2" value="array"> array</label>
+        <label class="option"><input type="checkbox" name="q2" value="boolean"> boolean</label>
+        <div class="feedback" id="fb2">Правильные ответы: <b>string, number, boolean</b></div>
+    </div>
+
+    <!-- ============ ВОПРОС 3. Выпадающий список ============ -->
+    <div class="question" id="q3">
+        <div class="q-header">
+            <span class="q-num">3</span>
+            <div>Какой метод массива добавляет элемент <b>в конец</b> массива?
+                <span class="hint">Выберите ответ из выпадающего списка</span>
+            </div>
+        </div>
+        <select id="q3select">
+            <option value="">— выберите метод —</option>
+            <option value="pop">pop()</option>
+            <option value="shift">shift()</option>
+            <option value="push">push()</option>
+            <option value="unshift">unshift()</option>
+            <option value="slice">slice()</option>
+        </select>
+        <div class="feedback" id="fb3">Правильный ответ: <b>push()</b></div>
+    </div>
+
+    <!-- ============ ВОПРОС 4. Текстовый ответ + регулярное выражение ============ -->
+    <div class="question" id="q4">
+        <div class="q-header">
+            <span class="q-num">4</span>
+            <div>Напишите название глобальной функции, которая преобразует строку в <b>целое</b> число.
+                <span class="hint">Ответ проверяется регулярным выражением, регистр не важен</span>
+            </div>
+        </div>
+        <input type="text" id="q4input" placeholder="Введите название функции..." autocomplete="off">
+        <div class="feedback" id="fb4">Правильный ответ: <b>parseInt()</b></div>
+    </div>
+
+    <!-- ============ ВОПРОС 5. Соответствие ============ -->
+    <div class="question" id="q5">
+        <div class="q-header">
+            <span class="q-num">5</span>
+            <div>Установите соответствие между методом массива и его действием.
+                <span class="hint">Для каждого метода выберите подходящее описание (4 пары, по 0,5 балла)</span>
+            </div>
+        </div>
+
+        <div class="match-row">
+            <div class="match-term">push()</div>
+            <select data-correct="addEnd">
+                <option value="">— выберите действие —</option>
+                <option value="addEnd">добавляет элемент в конец массива</option>
+                <option value="delEnd">удаляет последний элемент массива</option>
+                <option value="delStart">удаляет первый элемент массива</option>
+                <option value="addStart">добавляет элемент в начало массива</option>
+            </select>
+        </div>
+        <div class="match-row">
+            <div class="match-term">pop()</div>
+            <select data-correct="delEnd">
+                <option value="">— выберите действие —</option>
+                <option value="addEnd">добавляет элемент в конец массива</option>
+                <option value="delEnd">удаляет последний элемент массива</option>
+                <option value="delStart">удаляет первый элемент массива</option>
+                <option value="addStart">добавляет элемент в начало массива</option>
+            </select>
+        </div>
+        <div class="match-row">
+            <div class="match-term">shift()</div>
+            <select data-correct="delStart">
+                <option value="">— выберите действие —</option>
+                <option value="addEnd">добавляет элемент в конец массива</option>
+                <option value="delEnd">удаляет последний элемент массива</option>
+                <option value="delStart">удаляет первый элемент массива</option>
+                <option value="addStart">добавляет элемент в начало массива</option>
+            </select>
+        </div>
+        <div class="match-row">
+            <div class="match-term">unshift()</div>
+            <select data-correct="addStart">
+                <option value="">— выберите действие —</option>
+                <option value="addEnd">добавляет элемент в конец массива</option>
+                <option value="delEnd">удаляет последний элемент массива</option>
+                <option value="delStart">удаляет первый элемент массива</option>
+                <option value="addStart">добавляет элемент в начало массива</option>
+            </select>
+        </div>
+        <div class="feedback" id="fb5">
+            Правильные пары: <b>push → в конец, pop → удаляет последний,
+            shift → удаляет первый, unshift → в начало</b>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button id="checkBtn" onclick="checkQuiz()">Проверить результат</button>
+        <button id="resetBtn" onclick="resetQuiz()">Сбросить</button>
+    </div>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function calculateGrade(points, maxPoints) {
+    const percent = (points / maxPoints) * 100;
+
+    if (percent >= 90) return 5;   
+    if (percent >= 70) return 4;   
+    if (percent >= 50) return 3;   
+    return 2;                      
+}
+
+function checkQuiz() {
+    let score = 0;              
+    const MAX_SCORE = 10;      
+
+    /* ---------- Вопрос 1: одиночный выбор (2 балла) ---------- */
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q1ok = q1 && q1.value === '===';      
+    if (q1ok) score += 2;
+    mark('q1', q1ok);
+    document.getElementById('fb1').classList.add('show');
+
+    /* ---------- Вопрос 2: множественный выбор (2 балла) ---------- */
+    // ПРАВИЛЬНЫЙ НАБОР: string, number, boolean
+    const correct2 = ['string', 'number', 'boolean'];
+    const picked2 = Array.from(
+        document.querySelectorAll('input[name="q2"]:checked')
+    ).map(el => el.value);
+
+    const q2ok = picked2.length === correct2.length &&
+                 correct2.every(v => picked2.includes(v)); 
+    if (q2ok) score += 2;
+    mark('q2', q2ok);
+    document.getElementById('fb2').classList.add('show');
+
+    /* ---------- Вопрос 3: выпадающий список (2 балла) ---------- */
+    const q3 = document.getElementById('q3select').value;
+    const q3ok = q3 === 'push';                  
+    if (q3ok) score += 2;
+    mark('q3', q3ok);
+    document.getElementById('fb3').classList.add('show');
+
+    /* ---------- Вопрос 4: текстовый ответ + регулярное выражение (2 балла) ---------- */
+    const q4 = document.getElementById('q4input').value.trim();
+
+    const q4regex = /^(number\.)?parseint$/i;
+    const q4ok = q4regex.test(q4);
+    if (q4ok) score += 2;
+    mark('q4', q4ok);
+    document.getElementById('fb4').classList.add('show');
+
+    /* ---------- Вопрос 5: соответствие (2 балла: 4 пары × 0,5) ---------- */
+    const selects = document.querySelectorAll('#q5 select');
+    let matched = 0;
+    selects.forEach(sel => {
+        if (sel.value === sel.dataset.correct) matched++;   
+    });
+    const q5ok = matched === selects.length;
+    score += matched * 0.5;
+    mark('q5', q5ok);
+    document.getElementById('fb5').classList.add('show');
+
+    const grade = calculateGrade(score, MAX_SCORE);
+
+    const result = document.getElementById('result');
+    result.className = 'g' + grade;
+    result.style.display = 'block';
+
+    const titles = {
+        5: 'Отлично!',
+        4: 'Хорошо!',
+        3: 'Удовлетворительно',
+        2: 'Нужно ещё повторить материал'
+    };
+
+    result.innerHTML =
+        `${titles[grade]}
+         <span class="grade">${grade}</span>
+         <span class="detail">Набрано баллов: ${score} из ${MAX_SCORE}
+         (${Math.round(score / MAX_SCORE * 100)}%)</span>`;
+}
+
+function mark(id, isCorrect) {
+    const card = document.getElementById(id);
+    card.classList.remove('correct', 'wrong');
+    card.classList.add(isCorrect ? 'correct' : 'wrong');
+}
+
+function resetQuiz() {
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]')
+        .forEach(el => el.checked = false);
+
+    document.getElementById('q4input').value = '';
+    document.querySelectorAll('select').forEach(sel => sel.selectedIndex = 0);
+
+    document.querySelectorAll('.question').forEach(q =>
+        q.classList.remove('correct', 'wrong'));
+    document.querySelectorAll('.feedback').forEach(f =>
+        f.classList.remove('show'));
+
+    const result = document.getElementById('result');
+    result.style.display = 'none';
+    result.innerHTML = '';
+    result.className = '';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самостоятельное</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 350px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        input[type="button"] {
+            padding: 5px 12px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+    </style>
+    <script>
+        // Номер паспорта
+        function checkPassport() {
+            var value = document.getElementById("passportInput").value.trim();
+            var result = document.getElementById("passportResult");
+            var reg = /^[A-Z]{2}\d{7}$/;
+
+            if (reg.test(value)) {
+                result.textContent = "Корректный номер паспорта: " + value;
+                result.className = "result correct";
+            } else {
+                result.textContent = "Ошибка: нужно 2 заглавные латинские и 7 циифр (например, MP1234567).";
+                result.className = "result incorrect";
+            }
+        }
+
+        // Автомобильный номер
+        function checkCarNumber() {
+            var value = document.getElementById("carInput").value.trim();
+            var result = document.getElementById("carResult");
+
+            var reg = /^\d{4}[ABEIKMHOPCTYXАВЕШКМНОРСТУХ]{2}-[1-8]$/;
+
+            if (reg.test(value)) {
+                result.textContent = "Корректный номер: " + value;
+                result.className = "result correct";
+            } else {
+                result.textContent = "Ошибка: формат 4 цифры, 2 буквы, дефис, цифра от 1 до 8 (например, 0235КН-5).";
+                result.className = "result incorrect";
+            }
+        }
+
+        // Идент. номер паспорта
+        function checkPassportId() {
+            var value = document.getElementById("passportIdInput").value.trim();
+            var result = document.getElementById("passportIdResult");
+
+            var reg = /^[34]\d{6}[ABEKMHOPCTYXАВЕКМНОРСТУХ]\d{3}[ABEKMHOPCTYXАВЕКМНОРСТУХ]{2}\d$/;
+
+            if (reg.test(value)) {
+                result.textContent = "Корректный идентификационный номер: " + value;
+                result.className = "result correct";
+            } else {
+                result.textContent = "Ошибка: формат 3/4, 6 цифры, буква, 3 цифры, 2 буквы, цифра (например, 3123456А789ВС1).";
+                result.className = "result incorrect";
+            }
+        }
+
+        // Дата
+        function checkDate() {
+            var value = document.getElementById("dateInput").value.trim();
+            var result = document.getElementById("dateResult");
+            var reg = /^(\d{4})-(\d{2})-(\d{2})$/;
+            var match = reg.exec(value);
+
+            if (!match) {
+                result.textContent = "Ошибка: неверный формат. Введите дату как ГГГГ-ММ-ДД.";
+                result.className = "result incorrect";
+                return;
+            }
+
+            var year = parseInt(match[1], 10);
+            var month = parseInt(match[2], 10);
+            var day = parseInt(match[3], 10);
+
+            if (month < 1 || month > 12) {
+                result.textContent = "Ошибка: месяц должен быть от 1 до 12.";
+                result.className = "result incorrect";
+                return;
+            }
+
+            var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            if (month === 2) {
+                var isLeap = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+                if (isLeap) daysInMonth[1] = 29;
+            }
+
+            if (day < 1 || day > daysInMonth[month - 1]) {
+                result.textContent = "Ошибка: в " + month + "-м месяце " + year + " года не может быть " + вфн + " числа.";
+                result.className = "result incorrect";
+                return;
+            }
+
+            result.textContent = "Корректная дата: " + value;
+            result.className = "result correct";
+        }
+
+        function clearField(inputId, resultId) {
+            document.getElementById(inputId).value = "";
+            var res = document.getElementById(resultId);
+            res.textContent = "";
+            res.className = "result";
+        }
+    </script>
+</head>
+<body>
+    <fieldset>
+        <legend>1. Номер паспорта гражданина РБ</legend>
+        <input type="text" id="passportInput" placeholder="Например: МР1234567">
+        <input type="button" value="Проверить" onclick="checkPassport()">
+        <input type="button" value="Очистить" onclick="clearField('passportInput', 'passportResult')">
+        <div id="passportResult" class="result"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>2. Государственный автомобильный номер РБ</legend>
+        <input type="text" id="carInput" placeholder="Например: 0235KH-5">
+        <input type="button" value="Проверить" onclick="checkCarNumber()">
+        <input type="button" value="Очистить" onclick="clearField('carInput', 'carResult')">
+        <div id="carResult" class="result"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>3. идентификационный номер паспорта гражданина РБ</legend>
+        <input type="text" id="passportIdInput" placeholder="Например: 3123456A789BC1">
+        <input type="button" value="Проверить" onclick="checkPassportId()">
+        <input type="button" value="Очистить" onclick="clearField('passportIdInput', 'passportIdResult')">
+        <div id="passportIdResult" class="result"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>4. Дата рождения (с проверкой месяца и високосного года)</legend>
+        <input type="text" id="dateInput" placeholder="Например: 2000-02-29">
+        <input type="button" value="Проверить" onclick="checkDate()">
+        <input type="button" value="Очистить" onclick="clearField('dateInput', 'dateResult')">
+        <div id="dateResult" class="result"></div>
+    </fieldset>
+</body>
+</html>

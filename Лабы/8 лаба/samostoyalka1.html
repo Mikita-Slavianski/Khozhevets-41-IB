@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самостоятельное задание</title>
+    <script>
+        let str = '11 aaa bbb\n ccc 222 ddd\n eee ggg 33';
+        let regexpA = /\d\d\d/m;
+        let regexpB = /^\d\d/m;
+        let regExpC = /\d\d$/m;
+        let regExpD = /^\d\d\d/m;
+        // есть ли совпадения
+        alert(regexpA.test(str));
+        alert(regexpB.test(str));
+        alert(regexpC.test(str));
+        alert(regexpD.test(str));
+        // сами совпадения
+        alert(str.match(regexpA));
+        alert(str.match(regexpB));
+        alert(str.match(regexpC));
+        alert(str.match(regexpD));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

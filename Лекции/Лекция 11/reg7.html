@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регулярка 7</title>
+    <script>
+        var reg = /(19\d\d|200\d|201[0-4])-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])/
+
+        function clearInput() {
+            document.getElementById("dateInput").value = "";
+            document.getElementById("result").textContent = "";
+        }
+
+        function checkDate() {
+            var value = document.getElementById("dateInput").value.trim();
+            var result = document.getElementById("result");
+
+            if (reg.test(value)) {
+                result.textContent = "Дата корректна: " + value;
+                result.style.color = "green";
+            } else {
+                result.textContent = "Неверный формат. Введите дату в виде ГГГГ-ММ-ДД";
+                result.style.color = "red";
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="dateInput" placeholder="Например: 2014-05-20">
+    <input type="button" value="Очистить" onclick="clearInput()">
+    <input type="button" value="Проверить" onclick="checkDate()">
+    <p id="result"></p>
+</body>
+</html>
